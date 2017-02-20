@@ -3,17 +3,25 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(){
+    super();
+
+    const today = new Date();
+    const christmas = new Date("2017-12-25");
+
+    this.state = {
+      difference: Math.ceil((christmas - today)/1000/60/60/24)
+    }
+  }
+
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+      <div>
+        <p><b>Christmas</b></p>
+        <p>How many days</p>
+        <p>{this.state.difference}</p>
       </div>
+
     );
   }
 }
