@@ -6,8 +6,8 @@ class App extends Component {
   constructor(){
     super();
 
-    const today = new Date();
-    const christmas = new Date("2017-12-25");
+    const today = new Date(localStorage.getItem("today"))
+    const christmas = new Date(localStorage.getItem("christmas"))
 
     this.state = {
       difference: Math.ceil((christmas - today)/1000/60/60/24)
