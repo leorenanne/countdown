@@ -8,7 +8,10 @@ class App extends Component {
     super();
 
     const today = new Date()
-    const event = new Date(localStorage.getItem("event"))
+
+    const eventDate = localStorage.getItem("event")
+
+    var event = eventDate? new Date(eventDate) : new Date();
 
     this.state = {
       difference: Math.ceil((event - today)/1000/60/60/24)
