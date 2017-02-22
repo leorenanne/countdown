@@ -17,9 +17,11 @@ class App extends Component {
   render() {
     return (
       <div>
-        <p><b>Christmas</b></p>
-        <p>How many days</p>
-        <p>{this.state.difference}</p>
+        <div id="mainCountdown">
+          <div id="event">Christmas</div>
+          <div id="countdown">{this.state.difference}</div>
+          <div id="day">DAYS</div>
+        </div>
       </div>
 
     );
