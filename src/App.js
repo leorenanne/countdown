@@ -7,6 +7,11 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import DatePicker from 'material-ui/DatePicker'
 
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+
+
 class App extends Component {
   constructor(){
     super();
@@ -50,12 +55,71 @@ class App extends Component {
               </label>
               <button>Submit</button>
             </form>
-          <br/>
-          <DatePicker/>
+            <Settings/>
         </div>
         </MuiThemeProvider>
       </div>
 
+    );
+  }
+}
+
+class Settings extends React.Component {
+  constructor(){
+    super();
+
+    this.state = {
+      open: false
+    }
+
+    this.handleOpen = () => {
+      this.setState({open: true})
+    }
+
+    this.handClose = () => {
+      this.setState({open: false})
+    }
+
+    this.handleDateChange = (event, date) => {
+      console.log(date)
+    }
+  }
+
+  render(){
+    const actions = [
+      <FlatButton
+        label="Cancel"
+        primary={true}
+        onTouchTap={this.handClose}
+      />,
+      <FlatButton
+        label="Done"
+        primary={true}
+        onTouchTap={this.handClose}
+      />
+    ]
+
+    const customStyle = {
+      width: '90%',
+      maxWidth: 'none'
+    }
+
+    return(
+      <div>
+        <RaisedButton label="settings" onTouchTap={this.handleOpen} />
+        <Dialog
+          title="Set Date"
+          actions={actions}
+          modal={true}
+          open={this.state.open}
+          contentStyle={customStyle}
+          autoDetectWindowHeight={true}
+          autoScrollBodyContent={true}
+        >
+          <DatePicker hintText="Portrait Dialog" onChange={this.handleDateChange} />
+
+        </Dialog>
+      </div>
     );
   }
 }
