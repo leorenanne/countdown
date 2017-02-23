@@ -16,46 +16,49 @@ class App extends Component {
   constructor(){
     super();
 
+    this.state = {
+      difference: null
+    }
+
     injectTapEventPlugin();
 
-    const today = new Date()
+    this.initialise = () => {
+        const today = new Date()
 
-    const eventDate = localStorage.getItem("event")
+        const eventDate = localStorage.getItem("event")
+        var event = eventDate? new Date(eventDate) : new Date();
 
-    var event = eventDate? new Date(eventDate) : new Date();
+        var diff = Math.ceil((event - today)/1000/60/60/24)
 
-    this.state = {
-      difference: Math.ceil((event - today)/1000/60/60/24)
+        this.setState({difference: diff })
     }
 
     this.calculateCountdown = (event) => {
       const values = serializeForm(event.target, { hash: true })
-
       localStorage.setItem("event", (new Date(values.eventDate)).toJSON())
     }
 
+    this.changeDate = (date) => {
+      localStorage.setItem("event", (new Date(date)).toJSON())
+      this.initialise();
+    }
   }
 
+  componentDidMount() {
+    this.initialise();
+  }
 
   render() {
     return (
       <div>
         <MuiThemeProvider>
         <div id="mainCountdown">
-          <div id="event">Christmas</div>
+          <div id="event">Event</div>
           <div id="countdown">{this.state.difference}</div>
           <div id="day">DAYS</div>
           <br/>
-            <form onSubmit={this.calculateCountdown}>
-              <label> Date: <input
-                  type="text"
-                  name="eventDate"
-                  defaultValue="2020-01-01"
-                />
-              </label>
-              <button>Submit</button>
-            </form>
-            <Settings/>
+
+            <Settings changeDate={this.changeDate.bind(this)}/>
         </div>
         </MuiThemeProvider>
       </div>
@@ -82,6 +85,7 @@ class Settings extends React.Component {
 
     this.handleDateChange = (event, date) => {
       console.log(date)
+      this.props.changeDate(date)
     }
   }
 
@@ -106,7 +110,7 @@ class Settings extends React.Component {
 
     return(
       <div>
-        <RaisedButton label="settings" onTouchTap={this.handleOpen} />
+        <RaisedButton label="Change" onTouchTap={this.handleOpen} />
         <Dialog
           title="Set Date"
           actions={actions}
@@ -116,7 +120,7 @@ class Settings extends React.Component {
           autoDetectWindowHeight={true}
           autoScrollBodyContent={true}
         >
-          <DatePicker hintText="Portrait Dialog" onChange={this.handleDateChange} />
+          <DatePicker hintText="YYYY-MM-DD" onChange={this.handleDateChange.bind(this)} />
 
         </Dialog>
       </div>
