@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+
 import './App.css';
-import serializeForm from 'form-serialize'
+import serializeForm from 'form-serialize';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DatePicker from 'material-ui/DatePicker'
 
 class App extends Component {
   constructor(){
     super();
+
+    injectTapEventPlugin();
 
     const today = new Date()
 
@@ -25,26 +31,29 @@ class App extends Component {
 
   }
 
+
   render() {
     return (
       <div>
+        <MuiThemeProvider>
         <div id="mainCountdown">
           <div id="event">Christmas</div>
           <div id="countdown">{this.state.difference}</div>
           <div id="day">DAYS</div>
           <br/>
-
-        <form onSubmit={this.calculateCountdown}>
-          <label> Date: <input
-              type="text"
-              name="eventDate"
-              defaultValue="2020-01-01"
-            />
-          </label>
-          <button>Submit</button>
-        </form>
-
+            <form onSubmit={this.calculateCountdown}>
+              <label> Date: <input
+                  type="text"
+                  name="eventDate"
+                  defaultValue="2020-01-01"
+                />
+              </label>
+              <button>Submit</button>
+            </form>
+          <br/>
+          <DatePicker/>
         </div>
+        </MuiThemeProvider>
       </div>
 
     );
